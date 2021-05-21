@@ -7,7 +7,6 @@ from collections import namedtuple, deque
 import torch.optim as optim
 import random
 import matplotlib.pyplot as plt
-
 import os
 import time
 
@@ -432,7 +431,6 @@ if __name__ == '__main__':
 
         # Plotting graph
         # Episodes versus Avg. Rewards
-        print('plotea algo')
         p1 = plt.plot(avg_reward_list, 'b-', label="Rewards in each episode")
         plt.axis(True)
         plt.xlabel("Episode")
