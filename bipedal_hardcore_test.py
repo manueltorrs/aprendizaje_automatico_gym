@@ -325,7 +325,7 @@ if __name__ == '__main__':
     image_path = '/home/manuel/aprendizaje_automatico/aprendizaje_automatico_gym/weights/hardcore_solved/images/'
     weights_path_time = '/home/manuel/aprendizaje_automatico/aprendizaje_automatico_gym/weights/hardcore_solved/time/'
 
-    #agent.load_weight()
+    agent.load_weight()
 
     total_episodes = 100000
     start_timestep=0            #time_step to select action based on Actor
@@ -339,16 +339,18 @@ if __name__ == '__main__':
     expcount = 0
     totrain = 0
 
+    pause = 0
+    
     for ep in range(total_episodes):
         state = env.reset()
         episodic_reward = 0
         timestep = 0
         temp_replay_buffer = []
-
         for st in range(max_steps):
             env.render()
 
-            print(st)
+            if pause == 0:
+                pause = input('Presione una tecla y pulse intro para continuar')
 
             # Select action randomly or according to policy
             if total_timesteps < start_timestep:
@@ -372,6 +374,8 @@ if __name__ == '__main__':
             temp_replay_buffer.append((state, action, reward, add_reward, next_state, done))
             
             # End this episode when `done` is True
+            
+            """
             if done:
                 if add_reward == -1 or episodic_reward < 250:            
                     totrain = 1
@@ -384,6 +388,7 @@ if __name__ == '__main__':
                         agent.add_to_replay_memory(temp, agent.replay_memory_buffer)
                 print('break')
                 break
+            """
             state = next_state
             timestep += 1     
             total_timesteps += 1
@@ -392,7 +397,7 @@ if __name__ == '__main__':
         # Mean of last 100 episodes
         avg_reward = np.mean(ep_reward_list[-100:])
         avg_reward_list.append(avg_reward)
-
+        """
         if avg_reward > 294:
             print('avg_reward: {}'.format(avg_reward))
             test_reward = agent.eval_policy(env, seed=88, eval_episodes=10)
@@ -400,18 +405,22 @@ if __name__ == '__main__':
                 print('test_reward: {}'.format(test_reward))
                 final_test_reward = agent.eval_policy(env, seed=88, eval_episodes=100)
                 if final_test_reward > 300:
-                    """
+        """
+
+        """
                     torch.save(agent.actor.state_dict(), weights_path+'actor.pth')
                     torch.save(agent.critic.state_dict(), weights_path+'critic.pth')
                     torch.save(agent.actor_target.state_dict(), weights_path+'actor_t.pth')
                     torch.save(agent.critic_target.state_dict(), weights_path+'critic_t.pth')
                     torch.save(agent.sysmodel.state_dict(), weights_path+'sysmodel.pth')
-                    """
+        """
+
+        """
                     print("===========================")
                     print('Task Solved')
                     print("===========================")
                     break
-                    
+        """
         s = (int)(time.time() - time_start)
 
        
@@ -442,7 +451,7 @@ if __name__ == '__main__':
             save_time += 1
         
         env.render()
-        
+        """
         # Plotting graph
         # Episodes versus Avg. Rewards
         print('plotea algo')
@@ -455,5 +464,5 @@ if __name__ == '__main__':
         #f.close()
         plt.savefig(image_path + 'rwds_in_episodes.jpg')
         plt.close("all")
-
+        """
 env.close()    
